@@ -21,7 +21,7 @@ const AuthLayout = () => {
   return loading ? (
     <Loading fullHeight />
   ) : (
-    <Container component={"main"} maxWidth="xs">
+    <Container component={"main"}>
       <Box
         sx={{
           marginTop: 8,
@@ -30,8 +30,16 @@ const AuthLayout = () => {
           flexDirection: "column",
         }}
       >
-        <Typography variant="h1" fontWeight={1000} letterSpacing={15  }>PROD</Typography>
-        <Outlet></Outlet>
+        <Typography variant="h1" fontWeight={1000} letterSpacing={15}>
+          PROD
+        </Typography>
+        <Typography variant="h6" color={"gray"}>
+          Welcome To PROD
+        </Typography>
+        <Typography variant="h6" color={"gray"}>
+          A Productivity Booster
+        </Typography>
+        <Outlet />
       </Box>
     </Container>
   );
