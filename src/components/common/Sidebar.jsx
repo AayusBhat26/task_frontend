@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
   Drawer,
+  Grid,
   IconButton,
   List,
   ListItem,
@@ -18,6 +19,18 @@ import { setBoards } from "../../redux/features/boardSlice";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./index.css"
 import FavouriteList from "./FavouriteList";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
+import CheckIcon from "@mui/icons-material/Check";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 const Sidebar = () => {
   const user = useSelector((state) => state.user.value);
   const boards = useSelector((state) => state.board.value);
@@ -26,6 +39,7 @@ const Sidebar = () => {
   const { boardId } = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
   const sidebarWidth = 250;
+
   useEffect(() => {
     try {
       const getBoards = async () => {
@@ -121,7 +135,35 @@ const Sidebar = () => {
             </IconButton>
           </Box>
         </ListItem>
-        <Box sx={{ paddingTop: "10px"}} />
+        <Grid
+          sx={{
+            display: "flex",
+            gap: "10px",
+            maxWidth: "100%",
+            marginTop: "15px",
+            marginLeft: "5px",
+          }}
+        >
+          <Item
+            sx={{ width: "20%", cursor: "pointer" }}
+            onClick={() => navigate("/app/pomodoro")}
+          >
+            <AccessTimeIcon fontSize="medium" />
+          </Item>
+          <Item
+            sx={{ width: "20%", cursor: "pointer" }}
+            onClick={() => navigate("/")}
+          >
+            <CheckIcon fontSize="medium" />
+          </Item>
+          <Item
+            sx={{ width: "20%", cursor: "pointer" }}
+            onClick={() => navigate("/app/music")}
+          >
+            <LibraryMusicIcon fontSize="medium" />
+          </Item>
+        </Grid>
+        <Box sx={{ paddingTop: "10px" }} />
         <FavouriteList />
         <Box sx={{ paddingTop: "10px" }} />
         <ListItem>
@@ -131,10 +173,10 @@ const Sidebar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              marginTop:"20px"
+              marginTop: "20px",
             }}
           >
-            <Typography variant="h4" fontWeight="1000">
+            <Typography variant="h5" fontWeight="1000">
               Boards
             </Typography>
             <IconButton onClick={addBoard}>

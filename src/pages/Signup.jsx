@@ -7,8 +7,12 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
+import {useSelector, useDispatch} from "react-redux"
+import { setUser } from "../redux/features/userSlice";
+import axios from "axios";
 const Signup = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
   const [emailErrText, setEmailErrText] = useState("");
@@ -87,7 +91,14 @@ const Signup = () => {
       });
       setLoading(false);
       localStorage.setItem("token", res.token);
-      navigate("/");
+      dispatch(setUser(res));
+      const otp_res= await authApi.sendOtp({email})
+      // console.log(otp_res)
+      if(otp_res.status==="success"){
+        // window.location.href='verifyOtp'
+        navigate('/verifyOtp')
+      }
+      // navigate("/");
     } catch (err) {
       const errors = err.data.errors;
       errors.forEach((e) => {

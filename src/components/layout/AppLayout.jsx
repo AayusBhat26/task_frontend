@@ -30,6 +30,7 @@ const AppLayout = () => {
     <Box
       sx={{
         display: "flex",
+        // maxWidth: "100%",
       }}
     >
       <Sidebar />
@@ -42,6 +43,7 @@ const AppLayout = () => {
       >
         <Outlet />
       </Box>
+      {/* <Box>Apps</Box> */}
     </Box>
   );
 };
