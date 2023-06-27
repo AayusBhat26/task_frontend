@@ -52,11 +52,11 @@ const Sidebar = () => {
       };
       getBoards();
     } catch (error) {
-      alert(error);
+      // alert(error);
     }
   }, []);
   useEffect(() => {
-    updateActive(boards);
+    return updateActive(boards);
     // 2nd useeffect, this would be used when boards are changed
   }, [boards, boardId]);
   const updateActive = (listBoards) => {

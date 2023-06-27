@@ -13,7 +13,7 @@ import AuthLayout from "./components/layout/AuthLayout";
 import AppLayout from "./components/layout/AppLayout";
 import Verify from "./pages/Verify";
 import Music from "./components/Music";
-import Pomodoro from "./components/Pomodoro";
+import Pomodoro from "./components/pomodoro/Pomodoro";
 
 function App() {
   const theme = createTheme({
