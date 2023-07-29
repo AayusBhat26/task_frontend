@@ -7,13 +7,10 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
-import {useSelector, useDispatch} from "react-redux"
-import { setUser } from "../redux/features/userSlice";
-import axios from "axios";
+import { useDispatch} from "react-redux"; import { setUser } from "../redux/features/userSlice";
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const [loading, setLoading] = useState(false);
   const [emailErrText, setEmailErrText] = useState("");
   const [usernameErrText, setUsernameErrText] = useState("");
@@ -29,9 +26,7 @@ const Signup = () => {
   const handleClickShowConfirmPassword = () =>
     setShowConfirmPassword(!confirmPasswordErrText);
   const handleMouseDownConfirmPassword = () =>
-    setShowConfirmPassword(!confirmPasswordErrText);
-  let err = false;
-
+    setShowConfirmPassword(!confirmPasswordErrText); let err = false;
   const handleSubmit = async (e) => {
     e.preventDefault();
     setEmailErrText("");
@@ -124,10 +119,8 @@ const Signup = () => {
       setLoading(false);
     }
   };
-
   return (
-    <>
-      <Box component="form" sx={{ mt: 4 }} onSubmit={handleSubmit} noValidate>
+    <><Box component="form" sx={{ mt: 4 }} onSubmit={handleSubmit} noValidate>
         <Box sx={{ width: "100%", display: "flex", alignItems: "center" }}>
           <Typography fontSize={"12px"} color={"gray"} fontWeight={700}>
             Already have an account?
@@ -263,8 +256,7 @@ const Signup = () => {
         >
           Signup
         </LoadingButton>
-      </Box>
-    </>
+</Box></>
   );
 };
 

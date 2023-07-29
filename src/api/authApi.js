@@ -6,7 +6,8 @@ const authApi = {
   verifyToken: () => axiosClient.post("auth/verify-token"),
   sendOtp: (params) => axiosClient.post("auth/send-otp", params),
   verifyOtp: (params) => axiosClient.post("auth/verify-otp", params),
-  updatePomodoro: (params) => axiosClient.put("auth/app/pomodoroUpdate", params),
-//   getPomodoro:params=>axiosClient.get('/auth/app/getPomodoro', params)
+  updateCompleted: (params) => axiosClient.put("auth/app/updateCompleted", params),
+  //   getPomodoro:params=>axiosClient.get('/auth/app/getPomodoro', params)
+  getSingleTask:(params)=>axiosClient.get('/tasks/taskone',params)
 };
 export default authApi;

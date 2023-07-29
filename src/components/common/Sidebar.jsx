@@ -15,6 +15,7 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import assets from "../../assets/index";
 import boardApi from "../../api/boardApi";
+
 import { setBoards } from "../../redux/features/boardSlice";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./index.css"
@@ -44,7 +45,6 @@ const Sidebar = () => {
     try {
       const getBoards = async () => {
         const res = await boardApi.getAll();
-        // console.log(res);
         if (res.length > 0 && boardId === undefined) {
           navigate(`/boards/${res[0]._id}`);
         }
@@ -52,9 +52,9 @@ const Sidebar = () => {
       };
       getBoards();
     } catch (error) {
-      // alert(error);
     }
   }, []);
+  
   useEffect(() => {
     return updateActive(boards);
     // 2nd useeffect, this would be used when boards are changed
@@ -146,22 +146,23 @@ const Sidebar = () => {
         >
           <Item
             sx={{ width: "20%", cursor: "pointer" }}
-            onClick={() => navigate("/app/pomodoro")}
-          >
-            <AccessTimeIcon fontSize="medium" />
-          </Item>
-          <Item
-            sx={{ width: "20%", cursor: "pointer" }}
             onClick={() => navigate("/")}
           >
+            {/* kanban board (itself) */}
             <CheckIcon fontSize="medium" />
           </Item>
-          <Item
-            sx={{ width: "20%", cursor: "pointer" }}
-            onClick={() => navigate("/app/music")}
-          >
-            <LibraryMusicIcon fontSize="medium" />
-          </Item>
+        </Grid>
+        <Grid
+          sx={{
+          display: "flex",
+            gap: "10px",
+            maxWidth: "100%",
+            marginTop: "15px",
+            marginLeft: "5px",
+            // height:'45px'
+          }}
+        >
+
         </Grid>
         <Box sx={{ paddingTop: "10px" }} />
         <FavouriteList />

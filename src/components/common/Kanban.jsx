@@ -6,6 +6,7 @@ import {
   TextField,
   IconButton,
   Card,
+  Checkbox,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
@@ -15,18 +16,54 @@ import sectionApi from "../../api/sectionApi";
 import taskApi from "../../api/taskApi";
 import TaskModal from "./TaskModal";
 import "../../css/custom-scrollbar.css"
+import authApi from "../../api/authApi";
+import { useDispatch, useSelector } from "react-redux";
 let timer;
 const timeout = 500;
 
 const Kanban = (props) => {
+  const dispatch = useDispatch();
   const boardId = props.boardId;
+  const userId = useSelector((state)=>state.user.value._id)
   const [data, setData] = useState([]);
+  // const email = useSelector((state)=>state.value.email);
+  const email = useSelector((state)=>state.user.value.email)
+  console.log(email, point);
   const [selectedTask, setSelectedTask] = useState(undefined);
-
   useEffect(() => {
     setData(props.data);
   }, [props.data]);
-
+  const [singleComplete, setSingleCompleted]= useState(false);
+  useEffect(() => {
+    const pointsDisplay = async () => {
+      try {
+        const data = await authApi.findMe(email);
+        const point = data.user.points;
+        // console.log(data.user./points);
+        setPointsState(point);
+        // setLevelState(data.user.level);
+        dispatch(setPoints(point));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    pointsDisplay();
+  }, []);
+  useEffect(() => {
+    const pointsDisplay = async () => {
+      try {
+        const data = await authApi.findMe(email);
+        const point = data.user.points;
+        // console.log(data.user./points);
+        setPointsState(point);
+        // setLevelState(data.user.level);
+        dispatch(setPoints(point));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    pointsDisplay();
+  }, [pointsStaet]);
   const onDragEnd = async ({ source, destination }) => {
     if (!destination) return;
     const sourceColIndex = data.findIndex((e) => e.id === source.droppableId);
@@ -132,7 +169,36 @@ const Kanban = (props) => {
     newData[sectionIndex].tasks.splice(taskIndex, 1);
     setData(newData);
   };
+  const checked =async(e, taskId)=>{
+    // const userId = 
+    if(e.target.checked===true ){
+      try {
+        // if(taskCompleted.task.completed===false){
+          // alert("false")
+          const points = point;
+          const res = await authApi.updatePoints({
+            email,
+            points,
+          });
+          setPointsState(res.points);
 
+        // }
+        await authApi.updateCompleted({
+          user: userId,
+          taskId,
+        });
+        const taskCompleted = await authApi.updateCompleted({
+          taskId,
+        });
+        
+    
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    
+  }
   return (
     <>
       <Box
@@ -147,17 +213,16 @@ const Kanban = (props) => {
       <Divider sx={{ margin: "10px 0" }} />
       <DragDropContext onDragEnd={onDragEnd}>
         <Box
-        classname=""
+
           sx={{
             display: "flex",
             alignItems: "flex-start",
             // justifyContent:"center",
             width: "calc(100vw - 380px)",
             overflowX: "auto",
-            backgroundColor:'rgb(35,33,40)', 
-            height:'60vh', 
-            borderRadius:'10px'
-            
+            backgroundColor: "rgb(35,33,40)",
+            height: "60vh",
+            borderRadius: "10px",
           }}
         >
           {data.map((section) => (
@@ -171,9 +236,7 @@ const Kanban = (props) => {
                       width: "300px",
                       padding: "10px",
                       marginRight: "10px",
-                      // border:"1px solid rgb(166,161,199)",
-                      borderRadius:"10px",
-                      // marginLeft:'10px',
+                      borderRadius: "10px",
                       boxShadow:
                         "rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset",
                     }}
@@ -243,15 +306,26 @@ const Kanban = (props) => {
                             sx={{
                               padding: "10px",
                               marginBottom: "10px",
+                              width: "100%",
+                              display: "flex",
+                              alignItems: "center",
+
                               cursor: snapshot.isDragging
                                 ? "grab"
                                 : "pointer!important",
                             }}
-                            onClick={() => setSelectedTask(task)}
                           >
-                            <Typography>
-                              {task.title === "" ? "Untitled" : task.title}
-                            </Typography>
+                            <Box
+                              onClick={() => setSelectedTask(task)}
+                              sx={{ width: "90%" }}
+                            >
+                              <Typography>
+                                {task.title === "" ? "Untitled" : task.title}
+                              </Typography>
+                            </Box>
+                            <Box>
+                              <Checkbox onClick={e=>checked(e, task.id)} />
+                            </Box>
                           </Card>
                         )}
                       </Draggable>

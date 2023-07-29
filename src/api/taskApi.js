@@ -1,6 +1,8 @@
 import axiosClient from "./axiosClient";
 
 const taskApi = {
+  // find: (boardId, taskId) =>
+    // axiosClient.get('/task'),
   create: (boardId, params) =>
     axiosClient.post(`boards/${boardId}/tasks`, params),
   updatePosition: (boardId, params) =>

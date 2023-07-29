@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
 html, body{
-  font-size: 62.5%;
+  /* font-size: 62.5%; */
 };
 `;
 const root = ReactDOM.createRoot(document.getElementById('root'));
