@@ -1,6 +1,6 @@
 import axios from "axios"
 import queryString from "query-string"
-const baseUrl = "https://task-backend-mauve.vercel.app/";
+const baseUrl = "https://task-backend-mauve.vercel.app";
 const getToken = (req,res)=>localStorage.getItem('token')
 // https://task-backend-mauve.vercel.app/
 
