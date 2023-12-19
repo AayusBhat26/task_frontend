@@ -28,7 +28,7 @@ const Kanban = (props) => {
   const [data, setData] = useState([]);
   // const email = useSelector((state)=>state.value.email);
   const email = useSelector((state)=>state.user.value.email)
-  console.log(email, point);
+  // console.log(email, point);
   const [selectedTask, setSelectedTask] = useState(undefined);
   useEffect(() => {
     setData(props.data);
@@ -40,30 +40,30 @@ const Kanban = (props) => {
         const data = await authApi.findMe(email);
         const point = data.user.points;
         // console.log(data.user./points);
-        setPointsState(point);
+        // setPointsState(point);
         // setLevelState(data.user.level);
-        dispatch(setPoints(point));
+        // dispatch(setPoints(point));
       } catch (error) {
         console.log(error);
       }
     };
     pointsDisplay();
   }, []);
-  useEffect(() => {
-    const pointsDisplay = async () => {
-      try {
-        const data = await authApi.findMe(email);
-        const point = data.user.points;
-        // console.log(data.user./points);
-        setPointsState(point);
-        // setLevelState(data.user.level);
-        dispatch(setPoints(point));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    pointsDisplay();
-  }, [pointsStaet]);
+  // useEffect(() => {
+  //   const pointsDisplay = async () => {
+  //     try {
+  //       const data = await authApi.findMe(email);
+  //       const point = data.user.points;
+  //       // console.log(data.user./points);
+  //       // setPointsState(point);
+  //       // setLevelState(data.user.level);
+  //       dispatch(setPoints(point));
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   pointsDisplay();
+  // }, [pointsStaet]);
   const onDragEnd = async ({ source, destination }) => {
     if (!destination) return;
     const sourceColIndex = data.findIndex((e) => e.id === source.droppableId);
@@ -175,12 +175,12 @@ const Kanban = (props) => {
       try {
         // if(taskCompleted.task.completed===false){
           // alert("false")
-          const points = point;
-          const res = await authApi.updatePoints({
-            email,
-            points,
-          });
-          setPointsState(res.points);
+          // const points = point;
+          // const res = await authApi.updatePoints({
+          //   email,
+          //   points,
+          // });
+          // setPointsState(res.points);
 
         // }
         await authApi.updateCompleted({
