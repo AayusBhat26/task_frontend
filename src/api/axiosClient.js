@@ -1,8 +1,8 @@
 import axios from "axios"
 import queryString from "query-string"
-const baseUrl = "https://task-backend-mauve.vercel.app";
+const baseUrl =
+  "https://task-backend-lkxl0zoud-aayush-kumar-bhats-projects.vercel.app";
 const getToken = (req,res)=>localStorage.getItem('token')
-// https://task-backend-mauve.vercel.app/
 
 const axiosClient = axios.create({
       baseURL:baseUrl,
