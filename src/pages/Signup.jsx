@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, TextField, Typography, Paper } from '@mui/material'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import LoadingButton from '@mui/lab/LoadingButton'
@@ -39,7 +39,7 @@ const Signup = () => {
     }
     if (password !== confirmPassword) {
       err = true
-      setConfirmPasswordErrText('Confirm password not match')
+      setConfirmPasswordErrText('Confirm password does not match')
     }
 
     if (err) return
@@ -71,10 +71,29 @@ const Signup = () => {
   }
 
   return (
-    <>
+    <Paper
+      elevation={8}
+      sx={{
+        p: 4,
+        borderRadius: 4,
+        maxWidth: 420,
+        mx: 'auto',
+        mt: 8,
+        backgroundColor: '#f0f0f0',
+        boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      <Typography 
+        variant="h4" 
+        align="center" 
+        gutterBottom
+        sx={{ fontWeight: 'bold', color: '#2c3e50' }}
+      >
+        Create Account
+      </Typography>
       <Box
         component='form'
-        sx={{ mt: 1 }}
+        sx={{ mt: 2 }}
         onSubmit={handleSubmit}
         noValidate
       >
@@ -88,6 +107,17 @@ const Signup = () => {
           disabled={loading}
           error={usernameErrText !== ''}
           helperText={usernameErrText}
+          variant='outlined'
+          InputProps={{
+            sx: {
+              borderRadius: 2,
+              backgroundColor: '#e8eaf6',
+              color: '#2c3e50',
+            },
+          }}
+          InputLabelProps={{
+            sx: { color: '#2c3e50' },
+          }}
         />
         <TextField
           margin='normal'
@@ -100,6 +130,17 @@ const Signup = () => {
           disabled={loading}
           error={passwordErrText !== ''}
           helperText={passwordErrText}
+          variant='outlined'
+          InputProps={{
+            sx: {
+              borderRadius: 2,
+              backgroundColor: '#e8eaf6',
+              color: '#2c3e50',
+            },
+          }}
+          InputLabelProps={{
+            sx: { color: '#2c3e50' },
+          }}
         />
         <TextField
           margin='normal'
@@ -112,26 +153,56 @@ const Signup = () => {
           disabled={loading}
           error={confirmPasswordErrText !== ''}
           helperText={confirmPasswordErrText}
+          variant='outlined'
+          InputProps={{
+            sx: {
+              borderRadius: 2,
+              backgroundColor: '#e8eaf6',
+              color: '#2c3e50',
+            },
+          }}
+          InputLabelProps={{
+            sx: { color: '#2c3e50' },
+          }}
         />
         <LoadingButton
-          sx={{ mt: 3, mb: 2 }}
-          variant='outlined'
+          sx={{
+            mt: 3,
+            mb: 2,
+            borderRadius: 2,
+            paddingY: 1.5,
+            backgroundColor: '#3498db',
+            color: 'white',
+            '&:hover': {
+              backgroundColor: '#2980b9',
+            },
+            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+          }}
+          variant='contained'
           fullWidth
-          color='success'
           type='submit'
           loading={loading}
         >
           Signup
         </LoadingButton>
       </Box>
-      <Button
-        component={Link}
-        to='/login'
-        sx={{ textTransform: 'none' }}
-      >
-        Already have an account? Login
-      </Button>
-    </>
+      <Typography align="center">
+        <Button
+          component={Link}
+          to='/login'
+          sx={{ 
+            textTransform: 'none',
+            color: '#3498db',
+            fontWeight: 'bold',
+            '&:hover': {
+              textDecoration: 'underline',
+            },
+          }}
+        >
+          Already have an account? Login
+        </Button>
+      </Typography>
+    </Paper>
   )
 }
 

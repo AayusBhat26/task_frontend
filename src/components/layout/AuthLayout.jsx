@@ -1,4 +1,4 @@
-import { Container, Box } from '@mui/material'
+import { Container, Box, Typography } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import authUtils from '../../utils/authUtils'
@@ -32,7 +32,30 @@ const AuthLayout = () => {
           alignItems: 'center',
           flexDirection: 'column'
         }}>
-          <img src={assets.images.logoDark} style={{ width: '100px' }} alt='app logo' />
+          {/* <img src={assets.images.logoDark} style={{ width: '100px' }} alt='app logo' /> */}
+          <Typography
+  sx={{
+    fontSize: '32px',
+    fontWeight: 'bold',
+    width:'90vw',
+    letterSpacing: '0.5px',
+    color: 'whitesmoke',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    mb: 2, // Adds margin-bottom for spacing
+    '&:after': {
+      content: '""',
+      display: 'block',
+      width: '60px',
+      height: '4px',
+      backgroundColor: '#3498db',
+      margin: '8px auto 0',
+      borderRadius: '2px',
+    },
+  }}
+>
+  PROD - Kanban and Notes
+</Typography>
           <Outlet />
         </Box>
       </Container>
