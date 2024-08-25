@@ -6,7 +6,7 @@ import {
   TextField,
   IconButton,
   Card,
-  Checkbox,
+  Stack,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
@@ -15,55 +15,19 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import sectionApi from "../../api/sectionApi";
 import taskApi from "../../api/taskApi";
 import TaskModal from "./TaskModal";
-import "../../css/custom-scrollbar.css"
-import authApi from "../../api/authApi";
-import { useDispatch, useSelector } from "react-redux";
+
 let timer;
 const timeout = 500;
 
 const Kanban = (props) => {
-  const dispatch = useDispatch();
   const boardId = props.boardId;
-  const userId = useSelector((state)=>state.user.value._id)
   const [data, setData] = useState([]);
-  // const email = useSelector((state)=>state.value.email);
-  const email = useSelector((state)=>state.user.value.email)
-  // console.log(email, point);
   const [selectedTask, setSelectedTask] = useState(undefined);
+
   useEffect(() => {
     setData(props.data);
   }, [props.data]);
-  const [singleComplete, setSingleCompleted]= useState(false);
-  useEffect(() => {
-    const pointsDisplay = async () => {
-      try {
-        const data = await authApi.findMe(email);
-        const point = data.user.points;
-        // console.log(data.user./points);
-        // setPointsState(point);
-        // setLevelState(data.user.level);
-        // dispatch(setPoints(point));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    pointsDisplay();
-  }, []);
-  // useEffect(() => {
-  //   const pointsDisplay = async () => {
-  //     try {
-  //       const data = await authApi.findMe(email);
-  //       const point = data.user.points;
-  //       // console.log(data.user./points);
-  //       // setPointsState(point);
-  //       // setLevelState(data.user.level);
-  //       dispatch(setPoints(point));
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   pointsDisplay();
-  // }, [pointsStaet]);
+
   const onDragEnd = async ({ source, destination }) => {
     if (!destination) return;
     const sourceColIndex = data.findIndex((e) => e.id === source.droppableId);
@@ -169,64 +133,80 @@ const Kanban = (props) => {
     newData[sectionIndex].tasks.splice(taskIndex, 1);
     setData(newData);
   };
-  const checked =async(e, taskId)=>{
-    // const userId = 
-    if(e.target.checked===true ){
-      try {
-        // if(taskCompleted.task.completed===false){
-          // alert("false")
-          // const points = point;
-          // const res = await authApi.updatePoints({
-          //   email,
-          //   points,
-          // });
-          // setPointsState(res.points);
 
-        // }
-        await authApi.updateCompleted({
-          user: userId,
-          taskId,
-        });
-        const taskCompleted = await authApi.updateCompleted({
-          taskId,
-        });
-        
-    
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    
-  }
   return (
     <>
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "flex-end",
+
+          color: "black",
+          justifyContent: "space-between",
+          padding: "10px",
+          // backgroundColor: '#3a3a3a', // Darker background color
+          border: "1px solid #2c2c2c", // Darker border
+          borderRadius: "8px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)", // Slightly stronger shadow
+          transition: "background-color 0.3s ease, box-shadow 0.3s ease", // Smooth transition for background and shadow
+          "&:hover": {
+            backgroundColor: "#4a4a4a", // Darker gray on hover
+            boxShadow: "0 6px 12px rgba(0, 0, 0, 0.3)", // Stronger shadow on hover
+          },
         }}
       >
-        <Button onClick={createSection}>Create New Section</Button>
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Button
+            onClick={createSection}
+            sx={{
+              color: "white", // White text color
+              fontWeight: "bold", // Bold text
+              textShadow: "0 0 10px rgba(255, 255, 255, 0.6)", // Glowing effect on text
+              transition: "text-shadow 0.3s ease", // Smooth transition for text shadow
+              "&:hover": {
+                textShadow: "0 0 15px rgba(255, 255, 255, 1)", // Stronger glow on hover
+              },
+            }}
+          >
+            Add section
+          </Button>
+          <Typography variant="body2"  sx={{ color: "text.primary", fontSize:"8px" }} >Note: Ctrl + i to hide/Show sidebar</Typography>
+        </Stack>
+
+        <Typography
+          variant="body2"
+          fontWeight="700"
+          sx={{
+            color: "white", // White text color
+            textShadow: "0 0 10px rgba(255, 255, 255, 0.6)", // Glowing effect on text
+            transition: "text-shadow 0.3s ease", // Smooth transition for text shadow
+            "&:hover": {
+              textShadow: "0 0 15px rgba(255, 255, 255, 1)", // Stronger glow on hover
+            },
+          }}
+        >
+          {data.length} Sections
+        </Typography>
       </Box>
+
       <Divider sx={{ margin: "10px 0" }} />
       <DragDropContext onDragEnd={onDragEnd}>
         <Box
-
           sx={{
             display: "flex",
             alignItems: "flex-start",
-            // justifyContent:"center",
-            width: "calc(100vw - 380px)",
+            width: "calc(100vw - 400px)",
             overflowX: "auto",
-            backgroundColor: "rgb(35,33,40)",
-            height: "60vh",
-            borderRadius: "10px",
+            padding: "20px 10px", // Increased padding for spacing
+            // background: 'linear-gradient(135deg, #2d2d2d, #434343)', // Gradient background
+            borderRadius: "12px", // Softer corners
           }}
         >
           {data.map((section) => (
-            <div key={section.id} style={{ width: "300px" }}>
+            <div
+              key={section.id}
+              style={{ width: "300px", marginRight: "25px" }}
+            >
               <Droppable key={section.id} droppableId={section.id}>
                 {(provided) => (
                   <Box
@@ -234,11 +214,16 @@ const Kanban = (props) => {
                     {...provided.droppableProps}
                     sx={{
                       width: "300px",
-                      padding: "10px",
-                      marginRight: "10px",
-                      borderRadius: "10px",
-                      boxShadow:
-                        "rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset",
+                      padding: "15px",
+                      marginRight: "15px",
+                      backgroundColor: "#ffffff", // White background for contrast
+                      borderRadius: "12px",
+                      boxShadow: "0 8px 20px rgba(0, 0, 0, 0.15)", // Softer, deeper shadow
+                      transition: "transform 0.2s ease, box-shadow 0.2s ease", // Smooth transform and shadow
+                      "&:hover": {
+                        transform: "scale(1.02)", // Slight zoom on hover
+                        boxShadow: "0 12px 24px rgba(0, 0, 0, 0.2)", // Enhanced shadow on hover
+                      },
                     }}
                   >
                     <Box
@@ -247,8 +232,6 @@ const Kanban = (props) => {
                         alignItems: "center",
                         justifyContent: "space-between",
                         marginBottom: "10px",
-                        padding: "10px",
-                        borderRadius: "10px",
                       }}
                     >
                       <TextField
@@ -258,9 +241,12 @@ const Kanban = (props) => {
                         variant="outlined"
                         sx={{
                           flexGrow: 1,
-                          "& .MuiOutlinedInput-input": { padding: 0 },
+                          "& .MuiOutlinedInput-input": {
+                            padding: 0,
+                            color: "#333",
+                          }, // Dark text on light background
                           "& .MuiOutlinedInput-notchedOutline": {
-                            border: "unset ",
+                            border: "unset",
                           },
                           "& .MuiOutlinedInput-root": {
                             fontSize: "1rem",
@@ -272,8 +258,8 @@ const Kanban = (props) => {
                         variant="outlined"
                         size="small"
                         sx={{
-                          color: "gray",
-                          "&:hover": { color: "green" },
+                          color: "#666",
+                          "&:hover": { color: "#28a745" }, // Different hover color for add icon
                         }}
                         onClick={() => createTask(section.id)}
                       >
@@ -283,8 +269,8 @@ const Kanban = (props) => {
                         variant="outlined"
                         size="small"
                         sx={{
-                          color: "gray",
-                          "&:hover": { color: "red" },
+                          color: "#666",
+                          "&:hover": { color: "#dc3545" }, // Different hover color for delete icon
                         }}
                         onClick={() => deleteSection(section.id)}
                       >
@@ -306,26 +292,24 @@ const Kanban = (props) => {
                             sx={{
                               padding: "10px",
                               marginBottom: "10px",
-                              width: "100%",
-                              display: "flex",
-                              alignItems: "center",
-
                               cursor: snapshot.isDragging
                                 ? "grab"
                                 : "pointer!important",
+                              backgroundColor: "#f9f9f9", // Light background for task cards
+                              color: "#333", // Dark text for readability
+                              border: "1px solid #ddd", // Subtle border for definition
+                              borderRadius: "8px",
+                              boxShadow: snapshot.isDragging
+                                ? "0 6px 12px rgba(0, 0, 0, 0.1)"
+                                : "0 4px 8px rgba(0, 0, 0, 0.05)", // Lighter shadow
+                              transition:
+                                "background-color 0.3s ease, box-shadow 0.3s ease",
                             }}
+                            onClick={() => setSelectedTask(task)}
                           >
-                            <Box
-                              onClick={() => setSelectedTask(task)}
-                              sx={{ width: "90%" }}
-                            >
-                              <Typography>
-                                {task.title === "" ? "Untitled" : task.title}
-                              </Typography>
-                            </Box>
-                            <Box>
-                              <Checkbox onClick={e=>checked(e, task.id)} />
-                            </Box>
+                            <Typography sx={{ color: "#333" }}>
+                              {task.title === "" ? "Untitled" : task.title}
+                            </Typography>
                           </Card>
                         )}
                       </Draggable>
